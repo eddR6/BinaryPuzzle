@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bed8c00f884b3c499ec17f05bfc1ff5, type: 3}
-  m_Name: Level1
+  m_Script: {fileID: 11500000, guid: 4016439034109ed409b34611299e9c0e, type: 3}
+  m_Name: LevelGroup
   m_EditorClassIdentifier: 
-  gridSize: 3
-  rows:
-  - rowValue: 0100000002000000
-  - rowValue: 0300000004000000
-  - rowValue: 0500000006000000
+  levels:
+  - {fileID: 11400000, guid: 9b10faa1cde4b674fb4d99db4e7863ec, type: 2}
+  - {fileID: 11400000, guid: 73241bb12c84bdc4d959ba22d6288ad1, type: 2}
