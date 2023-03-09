@@ -1,28 +1,58 @@
+using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public LevelsGroup Levels;
-
-    void Start()
+    public static GameManager Instance { get; private set; }
+    private List<LevelData> levels;
+    [HideInInspector]
+    public int currentGrid;
+    [HideInInspector]
+    public int currentDifficulty;
+    private void Awake()
     {
-       LevelData lv;
-       for (int i = 0; i < Levels.levels.Length; i++)
+
+        if (Instance != null && Instance != this)
         {
-            lv = Levels.levels[i];
-            Debug.Log("id= "+lv.id);
-            
-            for(int j = 0; j < lv.rows.Length; j++)
-            {
-                Debug.Log("row= " + j);
-                for(int k = 0; k < lv.rows[j].rowValue.Length; k++)
-                {
-                    Debug.Log("val= " + lv.rows[j].rowValue[k]);
-                }
-            }
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
         }
     }
 
+   
+    void Start()
+    {
+        LoadLevelsData();
+        currentDifficulty = DefaultValues.DIFFICULTY;
+        currentGrid = DefaultValues.GRIDSIZE;
+
+    
+        List<LevelData> lv = levels.FindAll(delegate (LevelData temp)
+          {
+              return temp.gridSize == 6;
+          });
+        
+
+    }
+
+    private void LoadLevelsData()
+    {
+        string data = File.ReadAllText(Application.dataPath + "/LevelData/LevelCollection.json");
+        levels = JsonConvert.DeserializeObject<List<LevelData>>(data);
+    }
+
+    public void FilterLevels(int gridSize,int difficulty)
+    {
+        currentGrid = gridSize;
+        currentDifficulty = difficulty;
+
+        Debug.Log(gridSize + " " + difficulty);
+    }
 }
+
