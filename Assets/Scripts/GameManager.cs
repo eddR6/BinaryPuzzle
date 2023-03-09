@@ -12,6 +12,11 @@ public class GameManager : MonoBehaviour
     public int currentGrid;
     [HideInInspector]
     public int currentDifficulty;
+    [SerializeField]
+    private GameObject levelObject;
+    [SerializeField]
+    private Transform levelObjectParent;
+    private List<GameObject> activeTiles;
     private void Awake()
     {
 
@@ -28,17 +33,11 @@ public class GameManager : MonoBehaviour
    
     void Start()
     {
+        activeTiles = new List<GameObject>();
         LoadLevelsData();
         currentDifficulty = DefaultValues.DIFFICULTY;
         currentGrid = DefaultValues.GRIDSIZE;
-
-    
-        List<LevelData> lv = levels.FindAll(delegate (LevelData temp)
-          {
-              return temp.gridSize == 6;
-          });
-        
-
+        FilterLevels(currentGrid, currentDifficulty);
     }
 
     private void LoadLevelsData()
@@ -51,8 +50,37 @@ public class GameManager : MonoBehaviour
     {
         currentGrid = gridSize;
         currentDifficulty = difficulty;
+        List<LevelData> lv = levels.FindAll(delegate (LevelData temp)
+        {
+            return temp.gridSize == gridSize && temp.difficulty == difficulty;
+        });
+        //Debug.Log(gridSize + " " + difficulty);
+        if (lv != null)
+        {
+            SetLevelTileData(lv);
+        }
 
-        Debug.Log(gridSize + " " + difficulty);
+    }
+    private void SetLevelTileData(List<LevelData> levelData)
+    {
+        if (activeTiles != null)
+        {
+            foreach(GameObject ob in activeTiles)
+            {
+                Destroy(ob);
+            }
+        }
+        foreach (LevelData level in levelData)
+        {
+            GameObject obj = Instantiate(levelObject, levelObjectParent);
+            activeTiles.Add(obj);
+            LevelTileData data = obj.GetComponent<LevelTileData>();
+            data.id = level.id;
+            data.gridSize = level.gridSize;
+            data.difficulty = level.difficulty;
+            data.problem = level.problem;
+            data.solution = level.solution;
+        }
     }
 }
 

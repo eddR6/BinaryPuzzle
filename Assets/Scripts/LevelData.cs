@@ -4,5 +4,5 @@ public class LevelData
     public int gridSize;
     public int difficulty;
     public int[,] problem;
-
+    public int[,] solution;
 }
