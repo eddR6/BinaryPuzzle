@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Transform levelObjectParent;
     private List<GameObject> activeTiles;
+    public LevelData currentLevel;
     private void Awake()
     {
 
@@ -75,11 +76,7 @@ public class GameManager : MonoBehaviour
             GameObject obj = Instantiate(levelObject, levelObjectParent);
             activeTiles.Add(obj);
             LevelTileData data = obj.GetComponent<LevelTileData>();
-            data.id = level.id;
-            data.gridSize = level.gridSize;
-            data.difficulty = level.difficulty;
-            data.problem = level.problem;
-            data.solution = level.solution;
+            data.tileData = level;
         }
     }
 }

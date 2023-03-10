@@ -1,20 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelTileData : MonoBehaviour
 {
-    public int id;
-    public int gridSize;
-    public int difficulty;
-    public int[,] problem;
-    public int[,] solution;
+    public LevelData tileData;
 
     public void OnTileClick()
     {
-        Debug.Log("id" + id);
-        Debug.Log("grid" + gridSize);
-        Debug.Log("difi" + difficulty);
+        Debug.Log("id" + tileData.id);
+        Debug.Log("grid" +tileData. gridSize);
+        Debug.Log("difi" +tileData. difficulty);
+        GameManager.Instance.currentLevel = tileData;
+        MultiSceneValues.Instance.levelValue = tileData;
+        MultiSceneValues.Instance.id = tileData.id;
+        SceneManager.LoadScene(1);
 
     }
 
