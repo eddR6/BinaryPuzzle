@@ -58,6 +58,8 @@ public class BoardController : MonoBehaviour
             { 
                 GameObject obj = Instantiate(tile, boardParent);
                 TileController tileController = obj.GetComponent<TileController>();
+                tileController.xPos = i;
+                tileController.yPos = j;
                 if (levelData.problem[i, j] == -1)
                 {
                     tileController.textMesh.text = "";
@@ -122,6 +124,20 @@ public class BoardController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void RestoreTileValue(int i,int j, int newValue)
+    {
+        currentTileSet[i, j].tileValue = newValue;
+        if (newValue == -1)
+        {
+            currentTileSet[i, j].textMesh.text = "";
+        }
+        else
+        {
+            currentTileSet[i, j].textMesh.text = newValue.ToString();
+        }
+        CheckForWin();
     }
 
     public void ResetBoard()
